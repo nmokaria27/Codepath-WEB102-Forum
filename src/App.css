@@ -1,0 +1,77 @@
+/* Full-width layout */
+body, html, #root {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
+
+/* Main container adjustments */
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+/* Header styling */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    padding: 20px;
+    color: white;
+}
+
+header h1 {
+    font-size: 24px;
+    margin: 0;
+}
+
+/* Dark and light mode */
+:root {
+    --background-color: #f0f0f0;
+    --text-color: #333;
+    --card-background: #fff;
+    --card-text: #333;
+}
+
+.dark-mode {
+    --background-color: #121212;
+    --text-color: #f0f0f0;
+    --card-background: #333;
+    --card-text: #f0f0f0;
+}
+
+/* Dark/light mode button */
+.theme-toggle {
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: inherit;
+}
+
+/* Post Feed Styling */
+.post-card {
+    background-color: var(--card-background);
+    color: var(--card-text);
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 16px 0;
+    width: 100%;
+    max-width: 300px;
+    display: inline-block;
+    text-align: left;
+}
+
+.post-feed {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+}
