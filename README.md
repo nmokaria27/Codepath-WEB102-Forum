@@ -28,9 +28,9 @@ The following **optional** features are implemented:
 - [x] **Upon launching the web app, the user is assigned a random user ID. It will be associated with all posts and comments that they make and displayed on them.**
 - [ ] **Users can repost a previous post by referencing its post ID. On the post page of the new post, the referenced post is displayed and linked, creating a thread**
 - [x] **Users can customize the interface of the web app**
-- [ ] **Users can share and view web videos**
+- [x] **Users can share and view web videos**
 - [x] **Users can set flags while creating a post. Then users can filter posts by flags on the home feed.**
-- [ ] **Users can upload images directly from their local machine as an image file**
+- [x] **Users can upload images directly from their local machine as an image file**
 - [x] **Display a loading animation whenever data is being fetched**
 
 The following **additional** features are implemented:
@@ -43,7 +43,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://github.com/nmokaria27/Codepath-WEB102-Forum/blob/main/Vg-Forum1.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 
 ## Notes
