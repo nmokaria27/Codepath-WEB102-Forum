@@ -1,4 +1,4 @@
-@import 'tailwindcss/base';
+/* @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
@@ -192,4 +192,153 @@ body {
   .header-right {
     @apply order-1 w-full justify-between;
   }
+} */
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+:root {
+  --color-primary: #10b981;
+  --color-secondary: #3b82f6;
+  --color-background: #ffffff;
+  --color-foreground: #1f2937;
+}
+
+.dark {
+  --color-background: #1f2937;
+  --color-foreground: #f3f4f6;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+@layer components {
+  .bg-primary {
+    background-color: var(--color-primary);
+  }
+
+  .text-primary {
+    color: var(--color-primary);
+  }
+
+  .bg-secondary {
+    background-color: var(--color-secondary);
+  }
+
+  .text-secondary {
+    color: var(--color-secondary);
+  }
+
+  .card {
+    @apply bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden;
+  }
+
+  .button {
+    @apply bg-emerald-500 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out;
+  }
+
+  .button:hover {
+    @apply bg-opacity-80;
+  }
+
+  .button-secondary {
+    @apply bg-blue-500 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out;
+  }
+
+  .button-secondary:hover {
+    @apply bg-opacity-80;
+  }
+
+  .input {
+    @apply border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100;
+  }
+
+  .label {
+    @apply block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1;
+  }
+
+  .loading {
+    @apply flex justify-center items-center h-screen text-2xl text-emerald-500;
+  }
+
+  .post-card {
+    @apply bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out;
+  }
+
+  .post-card:hover {
+    @apply shadow-lg transform -translate-y-1;
+  }
+
+  .post-title {
+    @apply text-xl font-semibold mb-2 hover:text-emerald-500 transition duration-300 ease-in-out;
+  }
+
+  .post-content {
+    @apply text-gray-600 dark:text-gray-300 mb-4;
+  }
+
+  .post-image {
+    @apply w-full h-48 object-cover rounded-md mb-4;
+  }
+
+  .post-meta {
+    @apply flex items-center justify-between mt-4 text-sm text-gray-500 dark:text-gray-400;
+  }
+
+  .flag {
+    @apply bg-yellow-500 text-white text-xs font-semibold px-2.5 py-0.5 rounded;
+  }
+
+  .search-bar {
+    @apply w-full px-4 py-2 rounded-md text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-500;
+  }
+
+  .theme-toggle {
+    @apply bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-3 py-1 rounded-md border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-500;
+  }
+}
+
+.loading::after {
+  content: "...";
+  animation: dots 1s steps(5, end) infinite;
+}
+
+@keyframes dots {
+  0%, 20% {
+    color: rgba(0,0,0,0);
+    text-shadow:
+      .25em 0 0 rgba(0,0,0,0),
+      .5em 0 0 rgba(0,0,0,0);
+  }
+  40% {
+    color: var(--color-primary);
+    text-shadow:
+      .25em 0 0 rgba(0,0,0,0),
+      .5em 0 0 rgba(0,0,0,0);
+  }
+  60% {
+    text-shadow:
+      .25em 0 0 var(--color-primary),
+      .5em 0 0 rgba(0,0,0,0);
+  }
+  80%, 100% {
+    text-shadow:
+      .25em 0 0 var(--color-primary),
+      .5em 0 0 var(--color-primary);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+  .container {
+    @apply px-4;
+  }
+}
+
+.main-content {
+  @apply bg-white dark:bg-gray-900;
 }

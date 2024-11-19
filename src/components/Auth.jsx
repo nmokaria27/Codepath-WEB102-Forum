@@ -56,3 +56,44 @@ export default function Auth() {
     </div>
   )
 }
+// import { useState } from 'react'
+// import { supabase } from '../supabaseClient';
+
+// export async function signUpWithEmail(email, password) {
+//   try {
+//     const { data, error } = await supabase.auth.signUp({
+//       email,
+//       password,
+//       options: {
+//         emailRedirectTo: `${window.location.origin}/auth/callback`
+//       }
+//     });
+
+//     if (error) {
+//       throw error;
+//     }
+
+//     return { data, error: null };
+//   } catch (error) {
+//     console.error('Error signing up:', error.message);
+//     return { data: null, error: error.message };
+//   }
+// }
+
+// export async function signInWithEmail(email, password) {
+//   try {
+//     const { data, error } = await supabase.auth.signInWithPassword({
+//       email,
+//       password
+//     });
+
+//     if (error) {
+//       throw error;
+//     }
+
+//     return { data, error: null };
+//   } catch (error) {
+//     console.error('Error signing in:', error.message);
+//     return { data: null, error: error.message };
+//   }
+// }

@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
-import PostCard from '../components/PostCard';
+import { ArrowBigUp } from 'lucide-react';
 
 function HomePage({ searchTerm, userId }) {
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState('newest');
-  const [flagFilter, setFlagFilter] = useState('all');
+  const [selectedFlag, setSelectedFlag] = useState('all');
 
   useEffect(() => {
     fetchPosts();
-  }, [searchTerm, sortBy, flagFilter]);
+  }, [searchTerm, sortBy, selectedFlag]);
 
   async function fetchPosts() {
-    setLoading(true);
     let query = supabase
       .from('posts')
       .select('*');
@@ -22,49 +21,53 @@ function HomePage({ searchTerm, userId }) {
       query = query.ilike('title', `%${searchTerm}%`);
     }
 
-    if (flagFilter !== 'all') {
-      query = query.eq('flag', flagFilter);
+    if (selectedFlag !== 'all') {
+      query = query.eq('flag', selectedFlag);
     }
 
-    if (sortBy === 'popular') {
-      query = query.order('upvotes', { ascending: false });
+    let { data, error } = await query;
+
+    if (error) {
+      console.error('Error fetching posts:', error);
     } else {
-      query = query.order('created_at', { ascending: false });
+      // Sort posts based on selected sorting option
+      const sortedPosts = data.sort((a, b) => {
+        if (sortBy === 'newest') {
+          return new Date(b.created_at) - new Date(a.created_at);
+        } else if (sortBy === 'most_upvotes') {
+          return (b.upvotes || 0) - (a.upvotes || 0);
+        }
+        return 0;
+      });
+      setPosts(sortedPosts);
     }
-
-    const { data, error } = await query;
-    if (error) console.error('Error fetching posts:', error);
-    else setPosts(data || []);
-    setLoading(false);
   }
 
   const handleUpvote = async (postId) => {
     const { data, error } = await supabase
       .from('posts')
-      .update({ upvotes: posts.find(p => p.id === postId).upvotes + 1 })
+      .update({ upvotes: (posts.find(p => p.id === postId).upvotes || 0) + 1 })
       .eq('id', postId);
 
     if (!error) {
-      setPosts(posts.map(post =>
-        post.id === postId ? { ...post, upvotes: post.upvotes + 1 } : post
-      ));
+      fetchPosts();
     }
   };
 
   return (
-    <div>
-      <div className="mb-6 flex space-x-4">
+    <div className="container mx-auto px-4">
+      <div className="flex justify-between items-center mb-6 mt-4">
         <select
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value)}
-          className="input"
+          className="input mr-4"
         >
           <option value="newest">Newest</option>
-          <option value="popular">Most Popular</option>
+          <option value="most_upvotes">Most Upvotes</option>
         </select>
         <select
-          value={flagFilter}
-          onChange={(e) => setFlagFilter(e.target.value)}
+          value={selectedFlag}
+          onChange={(e) => setSelectedFlag(e.target.value)}
           className="input"
         >
           <option value="all">All Flags</option>
@@ -74,15 +77,42 @@ function HomePage({ searchTerm, userId }) {
         </select>
       </div>
 
-      {loading ? (
-        <div className="loading">Loading posts...</div>
-      ) : (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post) => (
-            <PostCard key={post.id} post={post} onUpvote={handleUpvote} userId={userId} />
-          ))}
-        </div>
-      )}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {posts.map((post) => (
+          <div key={post.id} className="post-card">
+            <Link to={`/post/${post.id}`} className="block">
+              {post.image_url && (
+                <img src={post.image_url} alt="" className="post-image" />
+              )}
+              <div className="p-4">
+                <h2 className="post-title">{post.title}</h2>
+                <p className="post-content">{post.content}</p>
+                {post.flag && (
+                  <span className={`flag flag-${post.flag.toLowerCase()}`}>
+                    {post.flag}
+                  </span>
+                )}
+                <div className="post-meta">
+                  <div className="flex items-center">
+                    <button 
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleUpvote(post.id);
+                      }}
+                      className="flex items-center text-emerald-600 hover:text-emerald-700 mr-2"
+                    >
+                      <ArrowBigUp className="h-5 w-5" />
+                      <span>{post.upvotes || 0}</span>
+                    </button>
+                    <span>Posted by: {post.user_id}</span>
+                  </div>
+                  <span>{new Date(post.created_at).toLocaleDateString()}</span>
+                </div>
+              </div>
+            </Link>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
